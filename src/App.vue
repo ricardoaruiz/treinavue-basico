@@ -1,17 +1,28 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <p>iPhone: {{quantidade}}</p>
+    <button @click="decrementarQuantidade">Decrementar quantidade</button>
+    <p>{{mensagem}}</p>    
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'app',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      quantidade: 5,
+      mensagem: ""
+    }
+  },
+  methods: {
+    decrementarQuantidade() {
+      this.quantidade--;      
+      if ( this.quantidade <= 0 ) {
+        this.mensagem = 'Produto esgotado';
+      }
+    }
   }
 }
 </script>
