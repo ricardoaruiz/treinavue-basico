@@ -1,17 +1,25 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <ul>
+      <li><a v-on:click.prevent="appleClick" href="www.apple.com">Apple</a></li>
+      <li><a @click.prevent="mensagem='Google'" href="www.google.com">Google</a></li>
+    </ul>
+    {{mensagem}}
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'app',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      mensagem: ''
+    }
+  },
+  methods: {
+    appleClick() {
+      this.mensagem = 'Apple';
+    }
   }
 }
 </script>
