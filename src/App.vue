@@ -1,17 +1,23 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">  
+    <p>Lado do quadrado: {{lado}}</p>
+    <p>Perímetro do quadrado: {{lado * 4}}</p>
+    <p>Área do quadrado: {{lado * lado}}</p>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'app',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      lado: 2
+    }
+  },
+  created() {
+    setTimeout(() => {
+      this.titulo = 'Título da página'
+    }, 1500);
   }
 }
 </script>
