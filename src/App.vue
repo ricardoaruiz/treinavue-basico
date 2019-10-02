@@ -1,17 +1,25 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <pre>{{dados}}</pre>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
+ data() {
+   return {
+    dados: {}
+   }
+  },
+  methods: {
+    destruir() {
+      this.$destroy();
+    }
+  },
+  created() {
+    fetch('https://api.github.com/users/ricardoaruiz')
+      .then(result => result.json())
+      .then(data => this.dados = data);
   }
 }
 </script>
