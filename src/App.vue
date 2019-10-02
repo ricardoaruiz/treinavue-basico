@@ -1,22 +1,35 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <p :class="quantidade <=0 ? 'vermelho' : 'verde'">iPhone: {{quantidade}}</p>
+    <button @click="decrementarQuantidade">Decrementar quantidade</button>
+    <p v-show="quantidade <= 0">Produto esgotado</p>    
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'app',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      quantidade: 5,
+      mensagem: ""
+    }
+  },
+  methods: {
+    decrementarQuantidade() {
+      this.quantidade--;
+    }
   }
 }
 </script>
 
 <style>
+.vermelho {
+  color: red;
+}
+.verde {
+  color: green;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
