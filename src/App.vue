@@ -1,18 +1,29 @@
 <template>
   <div id="app">
     <div class="main">
+      
+      <!-- Componente TempoAgora -->
       <TempoAgora />
-      <CotacaoDolar />
+
+      <!-- Componente Cotacao -->
+      <Cotacao :moedaBase="moedaBase"/>
+      <input type="text" v-model="moedaBase"/>
+
     </div>
   </div>
 </template>
 
 <script>
-import CotacaoDolar from '@/components/CotacaoDolar.vue';
+import Cotacao from '@/components/Cotacao.vue';
 
 export default {
   components: {
-    CotacaoDolar
+    Cotacao
+  },
+  data() {
+    return {
+      moedaBase: 'USD'
+    }
   }
 }
 </script>
@@ -31,5 +42,10 @@ export default {
     max-width: 500px;
     margin: 0 auto;
     display: grid;
+}
+.main input {
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 1.1rem;
 }
 </style>
