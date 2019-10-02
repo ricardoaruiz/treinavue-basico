@@ -1,17 +1,20 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <p>Nome: {{nome}}</p>
+    <p>Sobre nome: {{sobreNome}}</p>
+    <p>Nome completo: {{nomeCompleto}}</p>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  data() {
+    return { nome: 'Alfredo', sobreNome: 'Barbosa' }
+  },
+  computed: {
+    nomeCompleto() {
+      return this.nome + ' ' + this.sobreNome;
+    }
   }
 }
 </script>
