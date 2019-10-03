@@ -6,8 +6,9 @@
       <TempoAgora />
 
       <!-- Componente Cotacao -->
-      <Cotacao :moedaBase="moedaBase"/>
+      <Cotacao :moedaBase="moedaBase" @onCotacao="cotacaoResultado = $event"/>
       <input type="text" v-model="moedaBase"/>
+      <p>{{cotacaoResultado}}</p>
 
     </div>
   </div>
@@ -22,7 +23,8 @@ export default {
   },
   data() {
     return {
-      moedaBase: 'USD'
+      moedaBase: 'USD',
+      cotacaoResultado : ''
     }
   }
 }

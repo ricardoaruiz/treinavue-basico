@@ -2,8 +2,6 @@
     <div>
         <h2>Cotação</h2>
         <button @click="buscarCotacao">Mostrar cotação agora</button>
-        <p v-if="data">1 {{moedaBase}} = R$ {{this.data.rates['BRL']}}</p>
-        <p v-if="moedaNaoSuportada">Moeda base não encontrada</p>
     </div>
 </template>
 
@@ -16,16 +14,9 @@ export default {
             required: true
         }
     },
-    data() {
-        return {
-            data: undefined,
-            moedaNaoSuportada: false
-        }
-    },
     watch: {
         moedaBase() {
-            this.data = undefined;
-            this.moedaNaoSuportada = false;
+            this.$emit('onCotacao', '');
         }
     },
     methods: {
@@ -33,13 +24,11 @@ export default {
             fetch(`https://api.exchangeratesapi.io/latest?base=${this.moedaBase}`)
                 .then(result => result.json())
                 .then(data => {
-                    if (!data['error']) {
-                        this.data = data;
-                        this.moedaNaoSuportada = false;
-                    } else {
-                        this.data = undefined;
-                        this.moedaNaoSuportada = true;
-                    }
+                    const mensagem = !data['error'] 
+                        ? `1 ${this.moedaBase} = R$ ${data.rates['BRL']}`
+                        : 'Moeda base não encontrada';
+
+                    this.$emit('onCotacao', mensagem);                    
                 });
         }
     }
