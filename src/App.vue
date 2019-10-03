@@ -6,9 +6,15 @@
       <TempoAgora />
 
       <!-- Componente Cotacao -->
-      <Cotacao :moedaBase="moedaBase" @onCotacao="cotacaoResultado = $event"/>
-      <input type="text" v-model="moedaBase"/>
-      <p>{{cotacaoResultado}}</p>
+      <Cotacao :moedaBase="moedaBase" @onCotacao="cotacaoResultado = $event">
+        <template v-slot:input>
+          <input type="text" class="input-moeda-base" v-model="moedaBase"/>
+        </template>
+
+        <template v-slot:mensagem>
+          <p>{{cotacaoResultado}}</p>
+        </template>
+      </Cotacao>
 
     </div>
   </div>
@@ -45,9 +51,13 @@ export default {
     margin: 0 auto;
     display: grid;
 }
-.main input {
+input {
+  width: 90%;
   margin-top: 10px;
+  margin-bottom: 10px;
   padding: 10px;
   font-size: 1.1rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,.2);
 }
 </style>

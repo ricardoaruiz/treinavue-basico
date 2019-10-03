@@ -1,7 +1,9 @@
 <template>
     <div>
         <h2>Cotação</h2>
+        <slot name="input"></slot>
         <button @click="buscarCotacao">Mostrar cotação agora</button>
+        <slot name="mensagem"></slot>
     </div>
 </template>
 
