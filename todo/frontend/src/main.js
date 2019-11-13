@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 
 import TodoButton from '@/components/TodoButton';
-import Message from '@/components/Message';
+import Message from '@/components/message/Message';
 
 import "font-awesome/css/font-awesome.css";
 

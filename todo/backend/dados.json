@@ -1,24 +1,24 @@
 {
   "tasks": [
     {
-      "description": "Task 0200",
-      "done": true,
-      "id": 6
+      "description": "Estudar Vue",
+      "done": false,
+      "id": 1
     },
     {
-      "description": "Task 03",
+      "description": "Estuddar GraphQL",
       "done": false,
-      "id": 7
+      "id": 2
     },
     {
-      "description": "Task 04",
+      "description": "Teste",
       "done": false,
-      "id": 8
+      "id": 3
     },
     {
-      "description": "tretretre",
+      "description": "kjlkj",
       "done": false,
-      "id": 9
+      "id": 4
     }
   ]
 }

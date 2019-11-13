@@ -1,7 +1,7 @@
 <template>
     <div class="container">
 
-        <Message :value="errorMessage" />
+        <Message :id="messageId" />
 
         <h2>Todo insert / update</h2>
 
@@ -19,17 +19,20 @@
 
 <script>
 import axios from 'axios';
+import MessageService from '@/components/message/MessageService';
 
 export default {
-    props: {
-        id: Number
-    },
+    props: ['id'],
     data() {
         return {
-            errorMessage: '',
             task: {
                 description: ''
             }
+        }
+    },
+    computed: {
+        messageId() {
+            return 'todoInsertUpdate';
         }
     },
     methods: {
@@ -44,15 +47,18 @@ export default {
                         description: this.task.description,
                         done: false
                     })
-                    .then(() => this.$router.push({ name: 'todo-list' }))
-                    .catch(error => this.errorMessage = error.message);
+                    .then(() => {
+                        this.task.description = '';
+                        MessageService.success(this.messageId, 'Task criada com sucesso')
+                    })
+                    .catch(() => MessageService.error(this.messageId, 'Erro ao inserir a task'));
             } else {
                 axios.put(`http://localhost:3000/tasks/${this.id}`, {
                     description: this.task.description,
                     done: false                    
                 })
-                .then(() => this.$router.push({ name: 'todo-list' }))
-                .catch(error => this.errorMessage = error.message);
+                .then(() =>  MessageService.success(this.messageId, 'Task alterada com sucesso'))
+                .catch(() => MessageService.error(this.messageId, 'Erro ao alterar a task'));
             }
         },
         backToList() {
@@ -63,16 +69,13 @@ export default {
         if (this.id) {
             axios.get(`http://localhost:3000/tasks/${this.id}`)
                 .then(result => this.task.description = result.data.description)
-                .catch(error => this.errorMessage = error.message);
+                .catch(() => MessageService.error(this.messageId, 'Erro ao carregar a task'));
         }
     }
 }
 </script>
 
 <style scoped>
-.container {
-
-}
 .container h2 {
     text-align: center;
     font-size: 2rem;

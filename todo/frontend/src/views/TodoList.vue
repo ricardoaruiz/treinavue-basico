@@ -1,7 +1,7 @@
 <template>
     <div class="list-container">
 
-        <Message :value="errorMessage" />
+        <Message :id="messageId" />
 
         <h2>Todo list</h2>
         <table class="list-table">
@@ -15,13 +15,19 @@
                     <td>{{task.description}}</td>
                     <td>{{task.done ? "Sim" : "Não"}}</td>
                     <td>
-                        <TodoButton @onClick="gotoUpdate(task.id)" icon="edit" type="circle"/>
+                        <TodoButton v-if="!task.done" 
+                                    @onClick="gotoUpdate(task.id)" 
+                                    icon="edit" 
+                                    type="circle"/>
 
-                        <TodoButton v-if="task.done" @onClick="removeTask(task.id)" icon="trash" type="circle"/>
+                        <TodoButton v-if="task.done" 
+                                    @onClick="removeTask(task.id)" 
+                                    icon="trash" 
+                                    type="circle"/>
 
                         <TodoButton @onClick="toggleTaskState(task)" 
-                                :icon="task.done ? 'undo' : 'check'"
-                                type="circle"/>
+                                    :icon="task.done ? 'undo' : 'check'"
+                                    type="circle"/>
                     </td>
                 </tr>
             </tbody>
@@ -34,12 +40,17 @@
 
 <script>
 import axios from 'axios';
+import MessageService from '@/components/message/MessageService';
 
 export default {
     data() {
         return {
-            errorMessage: '',
             tasks: []
+        }
+    },
+    computed: {
+        messageId() {
+            return 'listMessage';
         }
     },
     methods: {
@@ -54,10 +65,8 @@ export default {
                 axios.delete(`http://localhost:3000/tasks/${id}`)
                     .then(() => {
                         this.listAll();
-                        //const deletedTask = this.tasks.find(task => task.id === id);
-                        //this.tasks.splice(this.tasks.indexOf(deletedTask), 1);
                     })
-                    .catch(error => this.errorMessage = error.message);
+                    .catch(() => MessageService.error(this.messageId, 'Erro ao remover a task'));
             }
         },
         toggleTaskState(task) {
@@ -65,16 +74,13 @@ export default {
                 description: task.description,
                 done: !task.done
             })
-            .then(() => {
-                this.listAll()
-                // task.done = !task.done;
-            });
+            .then(() => this.listAll())
+            .catch(() => MessageService.error(this.messageId, 'Erro ao mudar o estado da task'));
         },
         listAll() {
             axios.get('http://localhost:3000/tasks')
-                .then(result => {
-                    this.tasks = result.data
-                });
+                .then(result => this.tasks = result.data)
+                .catch(() => MessageService.error(this.messageId, 'Erro ao listar as tasks'));
         }
     },
     created() {
