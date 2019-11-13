@@ -1,65 +1,61 @@
 <template>
     <div class="list-container">
 
-        <Message :id="messageId" />
+        <TodoMessage :id="messageId" />
 
         <h2>Todo list</h2>
-        <table class="list-table">
-            <thead>
-                <th>Descrição</th>
-                <th>Finalizado</th>
-                <th>Ações</th>
-            </thead>
-            <tbody>
-                <tr v-for="task in tasks" :key="task.id">
-                    <td>{{task.description}}</td>
-                    <td>{{task.done ? "Sim" : "Não"}}</td>
-                    <td>
-                        <TodoButton v-if="!task.done" 
-                                    @onClick="gotoUpdate(task.id)" 
-                                    icon="edit" 
-                                    type="circle"/>
+               
+        <TodoTable  :fields="fields" 
+                    :items="tasks">                     
 
-                        <TodoButton v-if="task.done" 
-                                    @onClick="removeTask(task.id)" 
-                                    icon="trash" 
-                                    type="circle"/>
+            <!-- Sobrescrita dos headers da tabela -->
+            <template v-slot:field-done="props">
+                <i class="fa fa-check" />  {{props.label}}
+            </template>
 
-                        <TodoButton @onClick="toggleTaskState(task)" 
-                                    :icon="task.done ? 'undo' : 'check'"
-                                    type="circle"/>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="list-actions">
-            <TodoButton label="Adicionar" icon="plus" @onClick="gotoCreate"/>
-        </div>
+            <template v-slot:field-actions="props">
+                <i class="fa fa-bolt" />  {{props.label}}
+            </template>
 
-        <hr />
 
-        <SimpleTable :fields="['col1','col2','col3']" 
-                     :items="[{col1: 'value11',col2:'value12',col3: 'value13'}, {col1: 'value21',col2:'value22',col3: 'value23'}]">
+            <!-- Sobrescrita dos valrores da tabela -->
+            <template v-slot:item-done="props">
+                {{props.item.done ? 'Sim' : 'Não'}}
+            </template>
 
-            <template slot="col3" scope="props">
+            <template v-slot:item-actions="props">
                 <TodoButton v-if="!props.item.done" 
                             @onClick="gotoUpdate(props.item.id)" 
                             icon="edit" 
-                            type="circle"/>                
+                            type="circle"/>
+
+                <TodoButton v-if="props.item.done" 
+                            @onClick="removeTask(props.item.id)" 
+                            icon="trash" 
+                            type="circle"/>                            
+
+                <TodoButton @onClick="toggleTaskState(props.item)" 
+                            :icon="props.item.done ? 'undo' : 'check'"
+                            type="circle"/>
             </template>
-        </SimpleTable>
+            
+        </TodoTable>
+
+        <div class="list-actions">
+            <TodoButton label="Adicionar" icon="plus" @onClick="gotoCreate"/>
+        </div>
 
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import MessageService from '@/components/message/MessageService';
+import TodoMessageService from '@/components/todo-message/TodoMessageService';
 
-import SimpleTable from '@/components/simple-table/SimpleTable';
+import TodoTable from '@/components/todo-table/TodoTable';
 
 export default {
-    components: { SimpleTable },
+    components: { TodoTable },
     data() {
         return {
             tasks: []
@@ -68,6 +64,20 @@ export default {
     computed: {
         messageId() {
             return 'listMessage';
+        },
+        fields() {
+            return [{
+                        label: 'Descrição', 
+                        name: 'description'
+                    },
+                    {
+                        label: 'Finalizado', 
+                        name: 'done'
+                    },
+                    {
+                        label: 'Ações', 
+                        name: 'actions'
+                    }];
         }
     },
     methods: {
@@ -83,7 +93,7 @@ export default {
                     .then(() => {
                         this.listAll();
                     })
-                    .catch(() => MessageService.error(this.messageId, 'Erro ao remover a task'));
+                    .catch(() => TodoMessageService.error(this.messageId, 'Erro ao remover a task'));
             }
         },
         toggleTaskState(task) {
@@ -92,12 +102,12 @@ export default {
                 done: !task.done
             })
             .then(() => this.listAll())
-            .catch(() => MessageService.error(this.messageId, 'Erro ao mudar o estado da task'));
+            .catch(() => TodoMessageService.error(this.messageId, 'Erro ao mudar o estado da task'));
         },
         listAll() {
             axios.get('http://localhost:3000/tasks')
                 .then(result => this.tasks = result.data)
-                .catch(() => MessageService.error(this.messageId, 'Erro ao listar as tasks'));
+                .catch(() => TodoMessageService.error(this.messageId, 'Erro ao listar as tasks'));
         }
     },
     created() {

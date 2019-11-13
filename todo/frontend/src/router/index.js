@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import TodoList from '../views/TodoList.vue'
-import TodoCreate from '../views/TodoCreate.vue'
+import TodoMaintenance from '../views/TodoMaintenance.vue'
 
 Vue.use(VueRouter)
 
@@ -14,12 +14,12 @@ const routes = [
   {
     path: '/create',
     name: 'todo-create',
-    component: TodoCreate
+    component: TodoMaintenance
   },
   {
     path: '/update/:id',
     name: 'todo-update',
-    component: TodoCreate,
+    component: TodoMaintenance,
     props: true
   },  
 ]

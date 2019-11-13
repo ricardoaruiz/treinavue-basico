@@ -7,7 +7,7 @@
 
 <script>
 
-import MessageService from './MessageService';
+import TodoMessageService from './TodoMessageService';
 
 export default {
     name: 'Message',
@@ -26,11 +26,11 @@ export default {
     computed: {
         icon() {
             switch (this.type) {
-                case MessageService.TYPES.SUCCESS:
+                case TodoMessageService.TYPES.SUCCESS:
                     return 'check';
-                case MessageService.TYPES.ERROR:
+                case TodoMessageService.TYPES.ERROR:
                     return 'bomb';
-                case MessageService.TYPES.WARNING:
+                case TodoMessageService.TYPES.WARNING:
                     return 'exclamation-triangle';
                 default:
                     return 'check';
@@ -38,7 +38,7 @@ export default {
         }
     },
     created() {
-        MessageService.subscribe(this.id, objMessage => {
+        TodoMessageService.subscribe(this.id, objMessage => {
             this.value = objMessage.message;
             this.type = objMessage.type;
 
@@ -50,7 +50,7 @@ export default {
         });
     },
     destroyed() {
-        MessageService.unsubscribe(this.id);
+        TodoMessageService.unsubscribe(this.id);
     }
 }
 </script>

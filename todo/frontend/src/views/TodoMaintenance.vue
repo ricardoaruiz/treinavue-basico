@@ -1,7 +1,7 @@
 <template>
     <div class="container">
 
-        <Message :id="messageId" />
+        <TodoMessage :id="messageId" />
 
         <h2>Todo insert / update</h2>
 
@@ -19,7 +19,7 @@
 
 <script>
 import axios from 'axios';
-import MessageService from '@/components/message/MessageService';
+import TodoMessageService from '@/components/todo-message/TodoMessageService';
 
 export default {
     props: ['id'],
@@ -49,16 +49,16 @@ export default {
                     })
                     .then(() => {
                         this.task.description = '';
-                        MessageService.success(this.messageId, 'Task criada com sucesso')
+                        TodoMessageService.success(this.messageId, 'Task criada com sucesso')
                     })
-                    .catch(() => MessageService.error(this.messageId, 'Erro ao inserir a task'));
+                    .catch(() => TodoMessageService.error(this.messageId, 'Erro ao inserir a task'));
             } else {
                 axios.put(`http://localhost:3000/tasks/${this.id}`, {
                     description: this.task.description,
                     done: false                    
                 })
-                .then(() =>  MessageService.success(this.messageId, 'Task alterada com sucesso'))
-                .catch(() => MessageService.error(this.messageId, 'Erro ao alterar a task'));
+                .then(() =>  TodoMessageService.success(this.messageId, 'Task alterada com sucesso'))
+                .catch(() => TodoMessageService.error(this.messageId, 'Erro ao alterar a task'));
             }
         },
         backToList() {
@@ -69,7 +69,7 @@ export default {
         if (this.id) {
             axios.get(`http://localhost:3000/tasks/${this.id}`)
                 .then(result => this.task.description = result.data.description)
-                .catch(() => MessageService.error(this.messageId, 'Erro ao carregar a task'));
+                .catch(() => TodoMessageService.error(this.messageId, 'Erro ao carregar a task'));
         }
     }
 }

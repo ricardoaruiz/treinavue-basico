@@ -2,20 +2,19 @@
   <div>
     <table class="list-table">
         <thead>
-            <th v-for="field in fields" :key="field">
-                {{field}}
+            <th v-for="field in fields" :key="field.name">
+                <slot :name="`field-${field.name}`" :field="field.name" :label="field.label">
+                    {{field.label}}
+                </slot>
             </th>
         </thead>
         <tbody>
-            <tr v-for="(item, rowIndex) in items" :key="rowIndex">
-                <template v-for="field in fields">
-                    <td v-if="typeof $scopedSlots[field] !== 'undefined'" :key="field">
-                        <slot :name="field" :field="field" :item="item"></slot>
-                    </td>
-                    <td v-else :key="field">
-                        {{item[field]}}
-                    </td>
-                </template>
+            <tr v-for="(item, itemIndex) in items" :key="`tr_${itemIndex}`">
+                <td v-for="(field, fieldIndex) in fields" :key="`td_${itemIndex}-${fieldIndex}`">
+                    <slot :name="`item-${field.name}`" :field="field.name" :item="item">
+                        {{item[field.name]}}
+                    </slot>
+                </td>
             </tr>
         </tbody>
     </table>

@@ -2,15 +2,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 
-import TodoButton from '@/components/TodoButton';
-import Message from '@/components/message/Message';
+import TodoButton from '@/components/todo-button/TodoButton';
+import TodoMessage from '@/components/todo-message/TodoMessage';
 
 import "font-awesome/css/font-awesome.css";
 
 Vue.config.productionTip = false
 
 Vue.component('TodoButton', TodoButton);
-Vue.component('Message', Message);
+Vue.component('TodoMessage', TodoMessage);
 
 new Vue({
   router,
