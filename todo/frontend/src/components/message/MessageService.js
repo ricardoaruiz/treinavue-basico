@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 export default class MessageService {
 
-    static _eventBus = new Vue();
+    static _eventBus = undefined;
 
     static TYPES = {
         SUCCESS: 'success',
@@ -10,24 +10,31 @@ export default class MessageService {
         WARNING: 'warning'
     }
 
+    static get eventbus() {
+        if (!MessageService._eventBus) {
+            MessageService._eventBus = new Vue();
+        }
+        return MessageService._eventBus;
+    }
+
     static subscribe(id, callback) {
-        MessageService._eventBus.$on(id, callback);
+        MessageService.eventbus.$on(id, callback);
     }
 
     static success(id, message) {
-        MessageService._eventBus.$emit(id, { message, type: MessageService.TYPES.SUCCESS});
+        MessageService.eventbus.$emit(id, { message, type: MessageService.TYPES.SUCCESS});
     }
 
     static error(id, message) {
-        MessageService._eventBus.$emit(id, { message, type: MessageService.TYPES.ERROR});
+        MessageService.eventbus.$emit(id, { message, type: MessageService.TYPES.ERROR});
     }
 
     static warning(id, message) {
-        MessageService._eventBus.$emit(id, { message, type: MessageService.TYPES.WARNING});
+        MessageService.eventbus.$emit(id, { message, type: MessageService.TYPES.WARNING});
     }
 
     static unsubscribe(id) {
-        MessageService._eventBus.$off(id);
+        MessageService.eventbus.$off(id);
     }
 
 }

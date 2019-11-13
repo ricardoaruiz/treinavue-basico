@@ -10,8 +10,8 @@
             <input type="text" id="description" v-model="task.description">
 
             <div class="form-actions">
-                <TodoButton label="Confirmar" icon="check"/>
                 <TodoButton label="Voltar" @onClick="backToList" icon="arrow-left"/>
+                <TodoButton label="Confirmar" icon="check"/>
             </div>
         </form>    
     </div>
