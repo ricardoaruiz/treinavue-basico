@@ -35,6 +35,20 @@
         <div class="list-actions">
             <TodoButton label="Adicionar" icon="plus" @onClick="gotoCreate"/>
         </div>
+
+        <hr />
+
+        <SimpleTable :fields="['col1','col2','col3']" 
+                     :items="[{col1: 'value11',col2:'value12',col3: 'value13'}, {col1: 'value21',col2:'value22',col3: 'value23'}]">
+
+            <template slot="col3" scope="props">
+                <TodoButton v-if="!props.item.done" 
+                            @onClick="gotoUpdate(props.item.id)" 
+                            icon="edit" 
+                            type="circle"/>                
+            </template>
+        </SimpleTable>
+
     </div>
 </template>
 
@@ -42,7 +56,10 @@
 import axios from 'axios';
 import MessageService from '@/components/message/MessageService';
 
+import SimpleTable from '@/components/simple-table/SimpleTable';
+
 export default {
+    components: { SimpleTable },
     data() {
         return {
             tasks: []
