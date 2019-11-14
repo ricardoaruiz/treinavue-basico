@@ -6,9 +6,9 @@
       "id": 1
     },
     {
-      "description": "Estuddar GraphQL",
-      "done": false,
-      "id": 2
+      "id": 2,
+      "description": "Estudar GraphQL",
+      "done": false
     },
     {
       "description": "Limpar a casa",
@@ -24,6 +24,36 @@
       "description": "Fazer o alinhamento do carro",
       "done": false,
       "id": 5
+    },
+    {
+      "description": "Tarefa nova",
+      "done": false,
+      "id": 6
+    },
+    {
+      "description": "Outra tarefa nova",
+      "done": false,
+      "id": 7
+    },
+    {
+      "description": "Buscar documento no despachante",
+      "done": false,
+      "id": 8
+    },
+    {
+      "description": "Ir ao médico",
+      "done": false,
+      "id": 9
+    },
+    {
+      "description": "Limpar a caixa d'água",
+      "done": false,
+      "id": 10
+    },
+    {
+      "description": "Levar o cachorro no veterinário",
+      "done": false,
+      "id": 11
     }
   ]
 }

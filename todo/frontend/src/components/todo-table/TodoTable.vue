@@ -32,6 +32,29 @@
                 </tr>
             </template>
         </tbody>
+
+        <!-- Paginação -->
+        <tfoot v-if="paginated">
+            <tr>
+                <td :colspan="fields.length" class="todo-table-pagination">
+                    <button :disabled="searched || isBeginOfPages" @click="previwesPage">
+                        <i class="fa fa-angle-left" />
+                    </button>
+                    <button :disabled="searched || isBeginOfPages" @click="firstPage">
+                        <i class="fa fa-angle-double-left" />
+                    </button>
+
+                    <div class="pagination-control">{{currentPage}} de {{pages}}</div>
+
+                    <button :disabled="searched || isEndOfPages" @click="lastPage">
+                        <i class="fa fa-angle-double-right" />
+                    </button>
+                    <button :disabled="searched || isEndOfPages" @click="nextPage">
+                        <i class="fa fa-angle-right" />
+                    </button>                    
+                </td>
+            </tr>
+        </tfoot>
     </table>
 
   </div>
@@ -54,35 +77,79 @@ export default {
         searchable: {
             type: Boolean,
             default: false
+        },
+        paginated: {
+            type: Boolean,
+            default: false
+        },
+        pageSize: {
+            type: Number,
+            default: 10
         }
     },
     data() {
         return {
             searchTerm: '',
-            internalItems: this.items
+            internalItems: this.items,
+            currentPage: 1,
+        }
+    },
+    computed: {
+        pages() {
+            return Math.ceil(this.items.length / this.pageSize);
+        },
+        searched() {
+            return this.searchTerm != '';
+        },
+        isBeginOfPages() {
+            return this.currentPage == 1;
+        },
+        isEndOfPages() {
+            return this.currentPage === this.pages;
         }
     },
     watch: {
         items() {
-            this.internalItems = this.items
+            this.updateData();
         },
         searchTerm() {
             this.search();
+        },
+        currentPage() {
+            this.updateData();
         }
     },
     methods: {
+        updateData() {
+            let end = this.currentPage * this.pageSize;
+            let begin = (this.currentPage * this.pageSize) - this.pageSize;
+            
+            this.internalItems = this.items.slice(begin, end);
+        },
         search() {
-            return this.searchTerm.length === 0
-                ? this.internalItems = this.items
+            this.searchTerm.length === 0
+                ? this.updateData()
                 : this.internalItems = this.items.filter(item => {
                     for(let prop in item) {
-                        return item[prop].toLowerCase()
+                        return new String(item[prop]).toLowerCase()
                             .includes(this.searchTerm.toLowerCase());
                     }
                 })
         },
         rowClicked(item) {
             this.$emit('onRowClick', item);
+        },
+        nextPage() {
+            this.currentPage++;
+        },
+        previwesPage() {
+            this.currentPage--;
+        },
+        firstPage() {
+            this.currentPage = 1;
+        },
+        lastPage() {
+            this.currentPage = this.pages;
         }
     }
 }
@@ -94,7 +161,6 @@ export default {
 }
 .todo-table {
     border-collapse: collapse;
-    border: 1px solid;
 }
 .todo-table thead th {    
     text-align: center;
@@ -109,7 +175,7 @@ export default {
 .todo-table thead th:last-child {
     border-right: 1px solid var(--table-th-color);
 }
-.todo-table tr:hover {
+.todo-table tbody tr:hover {
     background: var(--table-tr-hover-color);
 }
 .todo-table td {
@@ -128,5 +194,34 @@ export default {
     padding: 10px;
     font-size: 1.2rem;
     font-weight: bold;
+}
+
+/* Paginacao */
+.todo-table-pagination {
+    background: var(--gray-light-color);
+}
+.todo-table-pagination button {
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 1.1rem;
+    outline: none;
+    background: var(--btn-color);
+    color: var(--btn-font-color);
+}
+.todo-table-pagination button:hover {  
+    background: var(--btn-color-hover);
+    cursor: pointer;
+}
+.todo-table-pagination button:active {  
+    background: var(--btn-color-active);
+}
+.todo-table-pagination button:disabled {  
+    background: var(--btn-color-disabled);
+}
+.todo-table-pagination .pagination-control {
+    display: inline-block;
+    margin: 0 10px;
 }
 </style>

@@ -8,7 +8,10 @@
         <TodoTable  :fields="fields" 
                     :items="tasks"
                     :searchable="true"
-                    @onRowClick="(item) => this.gotoUpdate(item.id)">
+                    @onRowClick="(item) => this.gotoUpdate(item.id)"
+                    :paginated="true"
+                    :pageSize="5"
+            >
 
             <!-- Opcional usar somente se customizações forem necessárias no header -->
             <template v-slot:table-col="props">
