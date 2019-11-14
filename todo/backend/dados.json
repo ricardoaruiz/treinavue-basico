@@ -9,6 +9,21 @@
       "description": "Estuddar GraphQL",
       "done": false,
       "id": 2
+    },
+    {
+      "description": "Limpar a casa",
+      "done": false,
+      "id": 3
+    },
+    {
+      "description": "Abastecer o carro",
+      "done": false,
+      "id": 4
+    },
+    {
+      "description": "Fazer o alinhamento do carro",
+      "done": false,
+      "id": 5
     }
   ]
 }

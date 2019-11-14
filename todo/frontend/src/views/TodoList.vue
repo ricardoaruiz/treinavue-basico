@@ -6,7 +6,8 @@
         <h2>Todo list</h2>
                
         <TodoTable  :fields="fields" 
-                    :items="tasks">                     
+                    :items="tasks"
+                    :searchable="true">
 
             <!-- Opcional usar somente se customizações forem necessárias no header -->
             <template v-slot:table-col="props">
@@ -24,7 +25,7 @@
                     {{props.item.done ? 'Sim' : 'Não'}}    
                 </template>
 
-                <template v-if="props.field === 'actions'">
+                <template v-else-if="props.field === 'actions'">
                     <TodoButton v-if="!props.item.done" 
                                 @onClick="gotoUpdate(props.item.id)" 
                                 icon="edit" 
