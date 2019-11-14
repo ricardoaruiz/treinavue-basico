@@ -14,6 +14,9 @@
                 <template v-if="props.field.name === 'done'">
                     <i class="fa fa-check" />  {{props.field.label}}    
                 </template>
+                <template v-if="props.field.name === 'actions'">
+                    <i class="fa fa-bolt" />  {{props.field.label}}    
+                </template>                
                 <template v-else>
                     {{props.field.label}}
                 </template>
@@ -56,7 +59,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import TodoService from '../services/todo-service.js';
 import TodoMessageService from '@/components/todo-message/TodoMessageService';
 
 import TodoTable from '@/components/todo-table/TodoTable';
@@ -96,24 +99,19 @@ export default {
         },
         removeTask(id) {
             if(confirm('Deseja remover a task?')) {                
-                axios.delete(`http://localhost:3000/tasks/${id}`)
-                    .then(() => {
-                        this.listAll();
-                    })
+                TodoService.delete(id)
+                    .then(() => this.listAll())
                     .catch(() => TodoMessageService.error(this.messageId, 'Erro ao remover a task'));
             }
         },
         toggleTaskState(task) {
-            axios.put(`http://localhost:3000/tasks/${task.id}`, {
-                description: task.description,
-                done: !task.done
-            })
-            .then(() => this.listAll())
-            .catch(() => TodoMessageService.error(this.messageId, 'Erro ao mudar o estado da task'));
+            TodoService.updateState(task)
+                .then(() => this.listAll())
+                .catch(() => TodoMessageService.error(this.messageId, 'Erro ao mudar o estado da task'));
         },
         listAll() {
-            axios.get('http://localhost:3000/tasks')
-                .then(result => this.tasks = result.data)
+            TodoService.listAll()
+                .then(tasks => this.tasks = tasks)
                 .catch(() => TodoMessageService.error(this.messageId, 'Erro ao listar as tasks'));
         }
     },

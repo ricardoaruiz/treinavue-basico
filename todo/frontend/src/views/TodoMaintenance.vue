@@ -3,7 +3,7 @@
 
         <TodoMessage :id="messageId" />
 
-        <h2>Todo insert / update</h2>
+        <h2>{{title}}</h2>
 
         <form @submit.prevent="saveTask">
             <label for="description">Descrição</label>    
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import TodoService from '../services/todo-service.js';
 import TodoInput from '@/components/todo-input/TodoInput';
 import TodoMessageService from '@/components/todo-message/TodoMessageService';
 
@@ -37,6 +37,9 @@ export default {
         }
     },
     computed: {
+        title() {
+            return (!this.id ? 'Criar' : 'Alterar') + ' Task';
+        },
         messageId() {
             return 'todoInsertUpdate';
         }
@@ -49,7 +52,7 @@ export default {
             }
 
             if (!this.id) {
-                axios.post('http://localhost:3000/tasks', {
+                TodoService.create({
                         description: this.task.description,
                         done: false
                     })
@@ -59,7 +62,8 @@ export default {
                     })
                     .catch(() => TodoMessageService.error(this.messageId, 'Erro ao inserir a task'));
             } else {
-                axios.put(`http://localhost:3000/tasks/${this.id}`, {
+                TodoService.update({
+                    id: this.id,
                     description: this.task.description,
                     done: false                    
                 })
@@ -73,8 +77,8 @@ export default {
     },
     created() {
         if (this.id) {
-            axios.get(`http://localhost:3000/tasks/${this.id}`)
-                .then(result => this.task.description = result.data.description)
+            TodoService.find(this.id)
+                .then(task => this.task.description = task.description)
                 .catch(() => TodoMessageService.error(this.messageId, 'Erro ao carregar a task'));
         }
     }
