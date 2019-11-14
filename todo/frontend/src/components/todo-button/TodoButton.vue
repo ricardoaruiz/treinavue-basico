@@ -1,8 +1,9 @@
 <template>
     <button 
         @click.stop="buttonClicked"
-        :class="type"
+        :class="`${type} ${size}`"
         :title="tooltip"
+        :disabled="disabled"
     >
         <i v-if="icon" :class="`fa fa-${icon}`"></i>
         {{this.label}}
@@ -24,6 +25,15 @@ export default {
         },
         tooltip: {
             type: String
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        size: {
+            type: String,
+            default: 'medium',
+            validator: (value) => ['small', 'medium', 'largs'].indexOf(value) >= 0
         }
     },
     methods: {
@@ -36,11 +46,10 @@ export default {
 
 <style scoped>
 button {
-    padding: 10px;
+    position: relative;
     background: var(--btn-color);
     border: none;
     border-radius: 4px;
-    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     outline: none;
@@ -54,7 +63,20 @@ button:active {
 }
 .circle {
     border-radius: 50%;
+}
+.small {
+    width: 24px;
+    height: 24px;
+    font-size: .9rem;
+}
+.medium {
     width: 38px;
     height: 38px;
+    font-size: 1rem;
+}
+.large {
+    width: 52px;
+    height: 52px;
+    font-size: 1.1rem;
 }
 </style>

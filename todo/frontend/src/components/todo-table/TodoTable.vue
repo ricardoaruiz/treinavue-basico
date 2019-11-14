@@ -36,22 +36,36 @@
         <!-- Paginação -->
         <tfoot v-if="paginated">
             <tr>
-                <td :colspan="fields.length" class="todo-table-pagination">
-                    <button :disabled="searched || isBeginOfPages" @click="previwesPage">
-                        <i class="fa fa-angle-left" />
-                    </button>
-                    <button :disabled="searched || isBeginOfPages" @click="firstPage">
-                        <i class="fa fa-angle-double-left" />
-                    </button>
+                <td :colspan="fields.length" class="todo-table-footer">
+                    <div class="todo-table-pagination">
+                        <TodoButton icon="angle-left" 
+                                    type="circle" 
+                                    :disabled="searched || isBeginOfPages" 
+                                    @onClick="previwesPage" 
+                                    size="small"
+                        />
+                        <TodoButton icon="angle-double-left" 
+                                    type="circle" 
+                                    :disabled="searched || isBeginOfPages" 
+                                    @onClick="firstPage" 
+                                    size="small"
+                        />
 
-                    <div class="pagination-control">{{currentPage}} de {{pages}}</div>
+                        <div class="pagination-control">{{currentPage}} de {{pages}}</div>
 
-                    <button :disabled="searched || isEndOfPages" @click="lastPage">
-                        <i class="fa fa-angle-double-right" />
-                    </button>
-                    <button :disabled="searched || isEndOfPages" @click="nextPage">
-                        <i class="fa fa-angle-right" />
-                    </button>                    
+                        <TodoButton icon="angle-double-right" 
+                                    type="circle" 
+                                    :disabled="searched || isEndOfPages" 
+                                    @onClick="lastPage" 
+                                    size="small"
+                        />
+                        <TodoButton icon="angle-right" 
+                                    type="circle" 
+                                    :disabled="searched || isEndOfPages" 
+                                    @onClick="nextPage" 
+                                    size="small"
+                        />   
+                    </div>         
                 </td>
             </tr>
         </tfoot>
@@ -195,11 +209,11 @@ export default {
     font-size: 1.2rem;
     font-weight: bold;
 }
-
-/* Paginacao */
-.todo-table-pagination {
+.todo-table-footer {
     background: var(--gray-light-color);
 }
+
+/* Paginacao */
 .todo-table-pagination button {
     border: none;
     border-radius: 50%;
