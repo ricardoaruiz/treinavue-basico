@@ -8,35 +8,41 @@
         <TodoTable  :fields="fields" 
                     :items="tasks">                     
 
-            <!-- Sobrescrita dos headers da tabela -->
-            <template v-slot:field-done="props">
-                <i class="fa fa-check" />  {{props.label}}
+            <!-- Opcional usar somente se customizações forem necessárias no header -->
+            <template v-slot:table-col="props">
+                <template v-if="props.field.name === 'done'">
+                    <i class="fa fa-check" />  {{props.field.label}}    
+                </template>
+                <template v-else>
+                    {{props.field.label}}
+                </template>
             </template>
 
-            <template v-slot:field-actions="props">
-                <i class="fa fa-bolt" />  {{props.label}}
-            </template>
+            <!-- Opcional usar somente se customizações forem necessárias nos dados -->
+            <template v-slot:table-row="props">
+                <template v-if="props.field === 'done'">
+                    {{props.item.done ? 'Sim' : 'Não'}}    
+                </template>
 
+                <template v-if="props.field === 'actions'">
+                    <TodoButton v-if="!props.item.done" 
+                                @onClick="gotoUpdate(props.item.id)" 
+                                icon="edit" 
+                                type="circle"/>
 
-            <!-- Sobrescrita dos valrores da tabela -->
-            <template v-slot:item-done="props">
-                {{props.item.done ? 'Sim' : 'Não'}}
-            </template>
+                    <TodoButton v-if="props.item.done" 
+                                @onClick="removeTask(props.item.id)" 
+                                icon="trash" 
+                                type="circle"/>                            
 
-            <template v-slot:item-actions="props">
-                <TodoButton v-if="!props.item.done" 
-                            @onClick="gotoUpdate(props.item.id)" 
-                            icon="edit" 
-                            type="circle"/>
+                    <TodoButton @onClick="toggleTaskState(props.item)" 
+                                :icon="props.item.done ? 'undo' : 'check'"
+                                type="circle"/>
+                </template>
 
-                <TodoButton v-if="props.item.done" 
-                            @onClick="removeTask(props.item.id)" 
-                            icon="trash" 
-                            type="circle"/>                            
-
-                <TodoButton @onClick="toggleTaskState(props.item)" 
-                            :icon="props.item.done ? 'undo' : 'check'"
-                            type="circle"/>
+                <template v-else>
+                    {{props.value}}
+                </template>
             </template>
             
         </TodoTable>

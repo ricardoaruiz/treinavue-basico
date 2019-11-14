@@ -3,15 +3,15 @@
     <table class="list-table">
         <thead>
             <th v-for="field in fields" :key="field.name">
-                <slot :name="`field-${field.name}`" :field="field.name" :label="field.label">
+                <slot name="table-col" :field="field">
                     {{field.label}}
                 </slot>
             </th>
         </thead>
         <tbody>
             <tr v-for="(item, itemIndex) in items" :key="`tr_${itemIndex}`">
-                <td v-for="(field, fieldIndex) in fields" :key="`td_${itemIndex}-${fieldIndex}`">
-                    <slot :name="`item-${field.name}`" :field="field.name" :item="item">
+                <td v-for="(field, fieldIndex) in fields" :key="`td_${field.name}_${itemIndex}_${fieldIndex}`">
+                    <slot name="table-row" :field="field.name" :item="item" :value="item[field.name]">
                         {{item[field.name]}}
                     </slot>
                 </td>
@@ -41,7 +41,9 @@ export default {
     width: 100%;
     border-collapse: collapse;
 }
-.list-table th {
+.list-table thead th, 
+.list-table thead td,
+.list-table thead div {    
     text-align: center;
     padding: 10px;
     background: #524f4f;
