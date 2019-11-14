@@ -96,11 +96,12 @@ export default {
 }
 .maintain-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     margin-top: 20px;
 }
 .maintain-actions button {
-    width: 200px;
+    width: 150px;
+    margin-left: 10px;
 }
 </style>

@@ -143,4 +143,7 @@ export default {
     display: flex;
     justify-content: flex-end;
 }
+.list-actions button {
+    width: 150px;
+}
 </style>
