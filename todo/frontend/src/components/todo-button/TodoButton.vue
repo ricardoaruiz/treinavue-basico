@@ -37,19 +37,20 @@ export default {
 <style scoped>
 button {
     padding: 10px;
-    background: #add8e6;
+    background: var(--btn-color);
     border: none;
     border-radius: 4px;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     outline: none;
+    color: var(--btn-font-color);
 }
 button:hover {
-    background: #add8e6cc;
+    background: var(--btn-color-hover);
 }
 button:active {
-    background: #99d4e7;
+    background: var(--btn-color-active);
 }
 .circle {
     border-radius: 50%;

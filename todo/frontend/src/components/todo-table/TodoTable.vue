@@ -99,22 +99,22 @@ export default {
 .todo-table thead th {    
     text-align: center;
     padding: 10px;
-    background: #524f4f;
-    color: #fff;
-    border-right: 1px solid #dad2d2;
+    background: var(--table-th-color);
+    color: var(--white-color);
+    border-right: 1px solid var(--table-border-color);
 }
 .todo-table thead th:first-child {
-    border-left: 1px solid #524f4f;
+    border-left: 1px solid var(--table-th-color);
 }
 .todo-table thead th:last-child {
-    border-right: 1px solid #524f4f;
+    border-right: 1px solid var(--table-th-color);
 }
 .todo-table tr:hover {
-    background: gray;
+    background: var(--table-tr-hover-color);
 }
 .todo-table td {
-    border-bottom: 1px solid lightgray;
-    border-right: 1px solid lightgray;
+    border-bottom: 1px solid var(--table-border-color);
+    border-right: 1px solid var(--table-border-color);
     padding: 10px;
 }
 .todo-table td:last-child {

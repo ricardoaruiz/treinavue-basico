@@ -42,11 +42,19 @@ export default {
 <style>
 .todo-input {
     padding: 10px;
-    border: 1px solid lightgray;
+    border: 1px solid var(--gray-light-color);
     border-radius: 4px;
     margin-bottom: 15px;
     font-size: 1rem;
     font-weight: bold;
+}
+.todo-input:hover {
+    border: 1px solid var(--primary-color);
+    cursor: pointer;
+}
+.todo-input:focus {
+    border: 1px solid var(--secondary-color);
+    outline: none;
 }
 .todo-input.search {
     background-image: url('./assets/search-solid.svg');
