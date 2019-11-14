@@ -1,11 +1,10 @@
 <template>
   <div class="todo-table-container">
 
-    <input  type="text" 
-            placeholder="Busca"
-            class="todo-table-search" 
-            v-model="searchTerm"
-            v-if="searchable">
+    <TodoInput id="todo-search" 
+                :value.sync="searchTerm" 
+                :isSearch="true"
+    />
 
     <table class="todo-table">
         <thead>
@@ -39,7 +38,10 @@
 </template>
 
 <script>
+import TodoInput from '@/components/todo-input/TodoInput';
+
 export default {
+    components: { TodoInput },
     props: {
         fields: {
             type: Array,
@@ -72,7 +74,7 @@ export default {
         search() {
             return this.searchTerm.length === 0
                 ? this.internalItems = this.items
-                : this.internalItems = this.internalItems.filter(item => {
+                : this.internalItems = this.items.filter(item => {
                     for(let prop in item) {
                         return item[prop].toLowerCase()
                             .includes(this.searchTerm.toLowerCase());
@@ -118,19 +120,6 @@ export default {
 }
 .todo-table td button {
     margin-right: 5px;
-}
-.todo-table-search {
-    padding: 10px;
-    border: 1px solid lightgray;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    background-image: url('./assets/search-solid.svg');
-    background-repeat: no-repeat;
-    background-position: center right 10px;
-    background-size: 16px 16px;
-    padding-right: 30px;
 }
 .todo-table-nodata {
     padding: 10px;

@@ -2,7 +2,7 @@
     <button 
         @click="buttonClicked"
         :class="type">
-        <i v-if="icon" :class="`fa fa-${icon}`"></i>        
+        <i v-if="icon" :class="`fa fa-${icon}`"></i>
         {{this.label}}
 </button>
 </template>

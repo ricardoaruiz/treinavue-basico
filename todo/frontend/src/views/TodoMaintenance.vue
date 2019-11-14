@@ -7,7 +7,11 @@
 
         <form @submit.prevent="saveTask">
             <label for="description">Descrição</label>    
-            <input type="text" id="description" v-model="task.description">
+
+            <TodoInput id="description" 
+                        :value.sync="task.description" 
+                        placeholder="Descrição"
+            />
 
             <div class="form-actions">
                 <TodoButton label="Voltar" @onClick="backToList" icon="arrow-left"/>
@@ -19,9 +23,11 @@
 
 <script>
 import axios from 'axios';
+import TodoInput from '@/components/todo-input/TodoInput';
 import TodoMessageService from '@/components/todo-message/TodoMessageService';
 
 export default {
+    components: { TodoInput },
     props: ['id'],
     data() {
         return {
