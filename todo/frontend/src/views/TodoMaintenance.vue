@@ -1,19 +1,17 @@
 <template>
-    <div class="container">
+    <div class="maintain-container">
 
         <TodoMessage :id="messageId" />
 
-        <h2>{{title}}</h2>
+        <TodoPageHeader :title="title" />
 
-        <form @submit.prevent="saveTask">
-            <label for="description">Descrição</label>    
-
+        <form @submit.prevent="saveTask" class="maintain-form">
             <TodoInput id="description" 
                         :value.sync="task.description" 
                         placeholder="Descrição"
             />
 
-            <div class="form-actions">
+            <div class="maintain-actions">
                 <TodoButton label="Voltar" @onClick="backToList" icon="arrow-left"/>
                 <TodoButton label="Confirmar" icon="check"/>
             </div>
@@ -22,12 +20,13 @@
 </template>
 
 <script>
-import TodoService from '../services/todo-service.js';
+import TodoService from '@/services/todo-service.js';
+import TodoPageHeader from '@/components/todo-page-header/TodoPageHeader';
 import TodoInput from '@/components/todo-input/TodoInput';
 import TodoMessageService from '@/components/todo-message/TodoMessageService';
 
 export default {
-    components: { TodoInput },
+    components: { TodoPageHeader, TodoInput },
     props: ['id'],
     data() {
         return {
@@ -86,32 +85,22 @@ export default {
 </script>
 
 <style scoped>
-.container h2 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 40px;
-}
-form {
+.maintain-container {
     display: grid;
-}
-form button {
-    margin-top: 20px;
-    width: 200px;
-}
-form label {
-    margin-bottom: 10px;
-    font-size: 1.1rem;
-    font-weight: bold;
-}
-form input { 
-    padding: 10px;
-    font-size: 1.2rem;
     border: 1px solid lightgray;
     border-radius: 4px;
+    padding: 20px;
 }
-.form-actions {
+.maintain-form {
+    display: grid;
+}
+.maintain-actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 20px;
+}
+.maintain-actions button {
+    width: 200px;
 }
 </style>

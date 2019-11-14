@@ -1,7 +1,9 @@
 <template>
     <button 
-        @click="buttonClicked"
-        :class="type">
+        @click.stop="buttonClicked"
+        :class="type"
+        :title="tooltip"
+    >
         <i v-if="icon" :class="`fa fa-${icon}`"></i>
         {{this.label}}
 </button>
@@ -18,6 +20,9 @@ export default {
             default: 'normal'
         },
         icon: {
+            type: String
+        },
+        tooltip: {
             type: String
         }
     },

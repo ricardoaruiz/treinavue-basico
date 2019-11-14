@@ -16,7 +16,7 @@
         </thead>
         <tbody>
             <template v-if="internalItems.length">
-                <tr v-for="(item, itemIndex) in internalItems" :key="`tr_${itemIndex}`">
+                <tr v-for="(item, itemIndex) in internalItems" :key="`tr_${itemIndex}`" @click.stop="rowClicked(item)">
                     <td v-for="(field, fieldIndex) in fields" :key="`td_${field.name}_${itemIndex}_${fieldIndex}`">
                         <slot name="table-row" :field="field.name" :item="item" :value="item[field.name]">
                             {{item[field.name]}}
@@ -80,6 +80,9 @@ export default {
                             .includes(this.searchTerm.toLowerCase());
                     }
                 })
+        },
+        rowClicked(item) {
+            this.$emit('onRowClick', item);
         }
     }
 }

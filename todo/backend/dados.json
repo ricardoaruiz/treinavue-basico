@@ -12,13 +12,13 @@
     },
     {
       "description": "Limpar a casa",
-      "done": false,
+      "done": true,
       "id": 3
     },
     {
+      "id": 4,
       "description": "Abastecer o carro",
-      "done": true,
-      "id": 4
+      "done": false
     },
     {
       "description": "Fazer o alinhamento do carro",

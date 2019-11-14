@@ -3,11 +3,12 @@
 
         <TodoMessage :id="messageId" />
 
-        <h2>Todo list</h2>
+        <TodoPageHeader title="Todo list" />
                
         <TodoTable  :fields="fields" 
                     :items="tasks"
-                    :searchable="true">
+                    :searchable="true"
+                    @onRowClick="(item) => this.gotoUpdate(item.id)">
 
             <!-- Opcional usar somente se customizações forem necessárias no header -->
             <template v-slot:table-col="props">
@@ -32,16 +33,19 @@
                     <TodoButton v-if="!props.item.done" 
                                 @onClick="gotoUpdate(props.item.id)" 
                                 icon="edit" 
-                                type="circle"/>
+                                type="circle"
+                                tooltip="Alterar"/>
 
                     <TodoButton v-if="props.item.done" 
                                 @onClick="removeTask(props.item.id)" 
                                 icon="trash" 
-                                type="circle"/>                            
+                                type="circle"
+                                tooltip="Excluir"/>                            
 
                     <TodoButton @onClick="toggleTaskState(props.item)" 
                                 :icon="props.item.done ? 'undo' : 'check'"
-                                type="circle"/>
+                                type="circle"
+                                :tooltip="props.item.done ? 'Reabrir' : 'Finalizar'"/>
                 </template>
 
                 <template v-else>
@@ -62,10 +66,11 @@
 import TodoService from '../services/todo-service.js';
 import TodoMessageService from '@/components/todo-message/TodoMessageService';
 
+import TodoPageHeader from '@/components/todo-page-header/TodoPageHeader';
 import TodoTable from '@/components/todo-table/TodoTable';
 
 export default {
-    components: { TodoTable },
+    components: { TodoPageHeader, TodoTable },
     data() {
         return {
             tasks: []
@@ -122,35 +127,11 @@ export default {
 </script>
 
 <style scoped>
-.list-container h2 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 40px;
-}
-.list-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-.list-table th {
-    text-align: center;
-    padding: 10px;
-    background: #524f4f;
-    color: #fff
-}
-.list-table tr:hover {
-    background: gray;
-}
-.list-table td {
-    border-bottom: 1px solid lightgray;
-    border-right: 1px solid lightgray;
-    padding: 10px;
-}
-.list-table td:last-child {
-    border-right: none;
-    text-align: center;
-}
-.list-table td button {
-    margin-right: 5px;
+.list-container {
+    display: grid;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    padding: 20px;
 }
 .list-actions {
     margin-top: 20px;
