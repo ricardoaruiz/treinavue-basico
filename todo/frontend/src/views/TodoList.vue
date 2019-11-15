@@ -28,7 +28,12 @@
 
             <!-- Opcional usar somente se customizações forem necessárias nos dados -->
             <template v-slot:table-row="props">
-                <template v-if="props.field === 'done'">
+
+                <template v-if="props.field === 'description'">
+                    <span :class="props.item.done ? 'task-finished' : ''">{{props.item.description}}</span>
+                </template>
+
+                <template v-else-if="props.field === 'done'">
                     {{props.item.done ? 'Sim' : 'Não'}}    
                 </template>
 
@@ -145,5 +150,8 @@ export default {
 }
 .list-actions button {
     width: 150px;
+}
+.task-finished {
+    text-decoration: line-through
 }
 </style>

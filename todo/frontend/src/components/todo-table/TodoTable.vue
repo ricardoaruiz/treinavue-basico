@@ -7,6 +7,8 @@
     />
 
     <table class="todo-table">
+
+        <!-- Header -->
         <thead>
             <th v-for="field in fields" :key="field.name">
                 <slot name="table-col" :field="field">
@@ -14,6 +16,8 @@
                 </slot>
             </th>
         </thead>
+
+        <!-- Data -->
         <tbody>
             <template v-if="internalItems.length">
                 <tr v-for="(item, itemIndex) in internalItems" :key="`tr_${itemIndex}`" @click.stop="rowClicked(item)">
@@ -33,39 +37,15 @@
             </template>
         </tbody>
 
-        <!-- Paginação -->
+        <!-- Pagination -->
         <tfoot v-if="paginated">
             <tr>
                 <td :colspan="fields.length" class="todo-table-footer">
-                    <div class="todo-table-pagination">
-                        <TodoButton icon="angle-left" 
-                                    type="circle" 
-                                    :disabled="searched || isBeginOfPages" 
-                                    @onClick="previwesPage" 
-                                    size="small"
-                        />
-                        <TodoButton icon="angle-double-left" 
-                                    type="circle" 
-                                    :disabled="searched || isBeginOfPages" 
-                                    @onClick="firstPage" 
-                                    size="small"
-                        />
-
-                        <div class="pagination-control">{{currentPage}} de {{pages}}</div>
-
-                        <TodoButton icon="angle-double-right" 
-                                    type="circle" 
-                                    :disabled="searched || isEndOfPages" 
-                                    @onClick="lastPage" 
-                                    size="small"
-                        />
-                        <TodoButton icon="angle-right" 
-                                    type="circle" 
-                                    :disabled="searched || isEndOfPages" 
-                                    @onClick="nextPage" 
-                                    size="small"
-                        />   
-                    </div>         
+                    <TodoTablePagination 
+                        :currentPage.sync="currentPage" 
+                        :pages="pages" 
+                        :disabled="searched"
+                    />
                 </td>
             </tr>
         </tfoot>
@@ -76,9 +56,10 @@
 
 <script>
 import TodoInput from '@/components/todo-input/TodoInput';
+import TodoTablePagination from '@/components/todo-table/TodoTablePagination';
 
 export default {
-    components: { TodoInput },
+    components: { TodoInput, TodoTablePagination },
     props: {
         fields: {
             type: Array,
@@ -114,12 +95,6 @@ export default {
         },
         searched() {
             return this.searchTerm != '';
-        },
-        isBeginOfPages() {
-            return this.currentPage == 1;
-        },
-        isEndOfPages() {
-            return this.currentPage === this.pages;
         }
     },
     watch: {
@@ -135,6 +110,11 @@ export default {
     },
     methods: {
         updateData() {
+            if (!this.paginated) {
+                this.internalItems = this.items;
+                return;
+            } 
+
             let end = this.currentPage * this.pageSize;
             let begin = (this.currentPage * this.pageSize) - this.pageSize;
             
@@ -152,18 +132,6 @@ export default {
         },
         rowClicked(item) {
             this.$emit('onRowClick', item);
-        },
-        nextPage() {
-            this.currentPage++;
-        },
-        previwesPage() {
-            this.currentPage--;
-        },
-        firstPage() {
-            this.currentPage = 1;
-        },
-        lastPage() {
-            this.currentPage = this.pages;
         }
     }
 }
@@ -211,31 +179,5 @@ export default {
 }
 .todo-table-footer {
     background: var(--gray-light-color);
-}
-
-/* Paginacao */
-.todo-table-pagination button {
-    border: none;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    font-size: 1.1rem;
-    outline: none;
-    background: var(--btn-color);
-    color: var(--btn-font-color);
-}
-.todo-table-pagination button:hover {  
-    background: var(--btn-color-hover);
-    cursor: pointer;
-}
-.todo-table-pagination button:active {  
-    background: var(--btn-color-active);
-}
-.todo-table-pagination button:disabled {  
-    background: var(--btn-color-disabled);
-}
-.todo-table-pagination .pagination-control {
-    display: inline-block;
-    margin: 0 10px;
 }
 </style>
