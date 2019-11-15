@@ -39,7 +39,9 @@
                 </template>
 
                 <template v-else-if="props.field === 'done'">
-                    {{props.item.done ? 'Sim' : 'Não'}}    
+                    <div class="center">
+                        {{props.item.done ? 'Sim' : 'Não'}}
+                    </div>
                 </template>
 
                 <template v-else-if="props.field === 'actions'">
@@ -167,5 +169,9 @@ export default {
 }
 .task-finished {
     text-decoration: line-through
+}
+
+.center {
+    text-align: center;
 }
 </style>
