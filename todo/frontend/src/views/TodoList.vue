@@ -59,7 +59,7 @@
 
                         <TodoButton 
                             v-if="props.item.done" 
-                            @onClick="removeTask(props.item.id)" 
+                            @onClick="removeTask(props.item)" 
                             icon="trash" 
                             circle
                             tooltip="Excluir"
@@ -91,6 +91,14 @@
             />
         </div>
 
+        <TodoModal 
+            :id="idDeleteConfirm"
+            type="question"
+            :message="`Deseja realmente remover a task: ${this.task ? this.task.description : ''} ?`"
+            @onOk="confirmRemoveTask"
+            @onCancel="cancelRemoveTask"
+        />
+
     </section>
 </template>
 
@@ -100,12 +108,15 @@ import TodoMessageService from '@/components/todo-message/TodoMessageService';
 
 import TodoPageHeader from '@/components/todo-page-header/TodoPageHeader';
 import TodoTable from '@/components/todo-table/TodoTable';
+import TodoModal from '@/components/todo-modal/TodoModal';
+import TodoModalService from '@/components/todo-modal/TodoModalService';
 
 export default {
-    components: { TodoPageHeader, TodoTable },
+    components: { TodoPageHeader, TodoTable, TodoModal },
     data() {
         return {
-            tasks: []
+            tasks: [],
+            task: undefined
         }
     },
     computed: {
@@ -125,6 +136,9 @@ export default {
                         label: 'Ações', 
                         name: 'actions'
                     }];
+        },
+        idDeleteConfirm() {
+            return 'deleteTaskConfirm';
         }
     },
     methods: {
@@ -134,12 +148,18 @@ export default {
         gotoUpdate(id) {
             this.$router.push({ name: 'todo-update', params: { id } });
         },
-        removeTask(id) {
-            if(confirm('Deseja remover a task?')) {                
-                TodoService.delete(id)
-                    .then(() => this.listAll())
-                    .catch(() => TodoMessageService.error(this.messageId, 'Erro ao remover a task'));
-            }
+        removeTask(task) {
+            this.task = task;
+            TodoModalService.open(this.idDeleteConfirm);
+        },
+        confirmRemoveTask() {
+            TodoService.delete(this.task.id)
+                .then(() => this.listAll())
+                .catch(() => TodoMessageService.error(this.messageId, 'Erro ao remover a task'))
+                .finally(() => this.cancelRemoveTask())
+        },
+        cancelRemoveTask() {
+            this.task = undefined;
         },
         toggleTaskState(task) {
             TodoService.updateState(task)
