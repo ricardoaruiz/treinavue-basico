@@ -2,7 +2,7 @@
   "tasks": [
     {
       "description": "Estudar Vue",
-      "done": false,
+      "done": true,
       "id": 1
     },
     {

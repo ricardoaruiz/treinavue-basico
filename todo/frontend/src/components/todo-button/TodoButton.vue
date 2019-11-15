@@ -61,6 +61,9 @@ button:hover {
 button:active {
     background: var(--btn-color-active);
 }
+button:disabled {
+    background: var(--btn-color-disabled);
+}
 .circle {
     border-radius: 50%;
 }

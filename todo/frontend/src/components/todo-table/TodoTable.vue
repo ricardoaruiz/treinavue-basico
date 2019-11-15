@@ -3,7 +3,7 @@
 
     <TodoInput 
         id="todo-search" 
-        :value.sync="searchTerm" 
+        :value.sync="internalSearchTerm" 
         :isSearch="true"
     />
 
@@ -43,8 +43,9 @@
             <tr>
                 <td :colspan="fields.length" class="todo-table-footer">
                     <TodoTablePagination 
-                        :currentPage.sync="currentPage" 
+                        :currentPage.sync="internalCurrentPage" 
                         :pages="pages" 
+                        :pageSize.sync="internalPageSize"
                         :disabled="searched"
                     />
                 </td>
@@ -80,54 +81,61 @@ export default {
         },
         pageSize: {
             type: Number,
-            default: 10
+            default: 10,
+            validator: (value) => [5, 10, 20].find(size => value === size)
         }
     },
     data() {
         return {
-            searchTerm: '',
+            internalSearchTerm: '',
             internalItems: this.items,
-            currentPage: 1,
+            internalPageSize: this.pageSize,
+            internalCurrentPage: 1,
         }
     },
     computed: {
         pages() {
-            return Math.ceil(this.items.length / this.pageSize);
+            return this.internalPageSize != 0 
+                ? Math.ceil(this.items.length / this.internalPageSize)
+                : 1;
         },
         searched() {
-            return this.searchTerm != '';
+            return this.internalSearchTerm != '';
         }
     },
     watch: {
         items() {
             this.updateData();
         },
-        searchTerm() {
+        internalSearchTerm() {
             this.search();
         },
-        currentPage() {
+        internalCurrentPage() {
+            this.updateData();
+        },
+        internalPageSize() {
             this.updateData();
         }
     },
     methods: {
         updateData() {
-            if (!this.paginated) {
+            if (!this.paginated || this.internalPageSize === 0) {
                 this.internalItems = this.items;
                 return;
             } 
 
-            let end = this.currentPage * this.pageSize;
-            let begin = (this.currentPage * this.pageSize) - this.pageSize;
+            let end = this.internalCurrentPage * this.internalPageSize;
+            let begin = (this.internalCurrentPage * this.internalPageSize) - this.internalPageSize;
             
             this.internalItems = this.items.slice(begin, end);
         },
         search() {
-            this.searchTerm.length === 0
+            this.internalSearchTerm.length === 0
                 ? this.updateData()
                 : this.internalItems = this.items.filter(item => {
                     for(let prop in item) {
                         return new String(item[prop]).toLowerCase()
-                            .includes(this.searchTerm.toLowerCase());
+                            .includes(this.internalSearchTerm.toLowerCase());
                     }
                 })
         },
