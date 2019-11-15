@@ -1,12 +1,14 @@
 <template>
-    <div 
-        v-if="value" 
-        class="message-container" 
-        :class="type"
-    >
-        <i :class="`message-icon fa fa-${icon} fa-2x`" />
-        {{this.value}}
-    </div>
+    <transition appear>
+        <div 
+            v-if="value" 
+            class="message-container" 
+            :class="type"
+        >
+            <i :class="`message-icon fa fa-${icon} fa-2x`" />
+            {{this.value}}
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -82,5 +84,14 @@ export default {
 }
 .message-container.warning {
     background: var(--message-warning-color);
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity .5s;
+}
+.v-enter,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

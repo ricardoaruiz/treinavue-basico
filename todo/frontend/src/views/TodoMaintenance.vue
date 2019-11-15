@@ -24,6 +24,7 @@
                 />
 
                 <TodoButton 
+                    submit
                     label="Confirmar" 
                     icon="check"
                 />                

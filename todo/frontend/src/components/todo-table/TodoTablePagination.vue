@@ -16,14 +16,14 @@
         <div>
             <TodoButton 
                 icon="angle-left" 
-                type="circle" 
+                circle
                 :disabled="disabled || isBeginOfPages" 
                 @onClick="previwesPage" 
                 size="small"
             />
             <TodoButton 
                 icon="angle-double-left" 
-                type="circle" 
+                circle
                 :disabled="disabled || isBeginOfPages" 
                 @onClick="firstPage" 
                 size="small"
@@ -35,14 +35,14 @@
 
             <TodoButton
                 icon="angle-double-right" 
-                type="circle" 
+                circle
                 :disabled="disabled || isEndOfPages" 
                 @onClick="lastPage" 
                 size="small"
             />
             <TodoButton 
                 icon="angle-right" 
-                type="circle" 
+                circle
                 :disabled="disabled || isEndOfPages" 
                 @onClick="nextPage" 
                 size="small"

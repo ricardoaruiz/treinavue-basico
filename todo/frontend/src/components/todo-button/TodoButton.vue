@@ -1,7 +1,8 @@
 <template>
     <button 
+        :type="submit ? 'submit' : 'button'"
         @click.stop="buttonClicked"
-        :class="`${type} ${size}`"
+        :class="`${circle ? 'circle' : '' } ${size}`"
         :title="tooltip"
         :disabled="disabled"
     >
@@ -16,9 +17,13 @@ export default {
         label: {
             type: String
         },
-        type: {
-            type: String,
-            default: 'normal'
+        submit: {
+            type: Boolean,
+            default: false
+        },
+        circle: {
+            type: Boolean,
+            default: false
         },
         icon: {
             type: String
@@ -33,7 +38,7 @@ export default {
         size: {
             type: String,
             default: 'medium',
-            validator: (value) => ['small', 'medium', 'largs'].indexOf(value) >= 0
+            validator: (value) => ['small', 'medium', 'large'].indexOf(value) >= 0
         }
     },
     methods: {
@@ -46,14 +51,13 @@ export default {
 
 <style scoped>
 button {
-    position: relative;
     background: var(--btn-color);
+    color: var(--btn-font-color);
     border: none;
     border-radius: 4px;
     font-weight: bold;
     cursor: pointer;
     outline: none;
-    color: var(--btn-font-color);
 }
 button:hover {
     background: var(--btn-color-hover);

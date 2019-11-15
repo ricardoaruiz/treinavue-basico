@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view/>
+    <transition appear mode="out-in">
+      <router-view/>
+    </transition>
   </div>
 </template>
 
@@ -49,11 +51,23 @@
   font-family: "Roboto";
   src: url("assets/fonts/Roboto-Bold.ttf");
 }
-body {
+body, p, h1, h2, h3, h4, h5, div {
+  margin: 0;
+  padding: 0;
   font-family: 'Roboto', 'Courier New', Courier, monospace
 }
 #app {
   width: 800px;
-  margin: 0 auto;
+  margin: 10px auto 0 auto;
+  border-radius: 4px;
+  box-shadow: 2px 4px 6px rgba(0,0,0,.4);
+}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity .5s;
+}
+.v-enter,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

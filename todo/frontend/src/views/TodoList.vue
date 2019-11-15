@@ -47,7 +47,7 @@
                         v-if="!props.item.done" 
                         @onClick="gotoUpdate(props.item.id)" 
                         icon="edit" 
-                        type="circle"
+                        circle
                         tooltip="Alterar"
                     />
 
@@ -55,14 +55,14 @@
                         v-if="props.item.done" 
                         @onClick="removeTask(props.item.id)" 
                         icon="trash" 
-                        type="circle"
+                        circle
                         tooltip="Excluir"
                     />
 
                     <TodoButton 
                         @onClick="toggleTaskState(props.item)" 
                         :icon="props.item.done ? 'undo' : 'check'"
-                        type="circle"
+                        circle
                         :tooltip="props.item.done ? 'Reabrir' : 'Finalizar'"
                     />
                 </template>
@@ -158,7 +158,6 @@ export default {
 }
 .list-actions {
     margin-top: 20px;
-    padding: 10px;
     
     display: flex;
     justify-content: flex-end;
