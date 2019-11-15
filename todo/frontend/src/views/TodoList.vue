@@ -35,7 +35,9 @@
             <template v-slot:table-row="props">
 
                 <template v-if="props.field === 'description'">
-                    <span :class="props.item.done ? 'task-finished' : ''">{{props.item.description}}</span>
+                    <div :class="props.item.done ? 'task-finished' : ''">
+                        {{props.item.description}}
+                    </div>
                 </template>
 
                 <template v-else-if="props.field === 'done'">
@@ -45,28 +47,33 @@
                 </template>
 
                 <template v-else-if="props.field === 'actions'">
-                    <TodoButton 
-                        v-if="!props.item.done" 
-                        @onClick="gotoUpdate(props.item.id)" 
-                        icon="edit" 
-                        circle
-                        tooltip="Alterar"
-                    />
+                    <div class="center">
+                        <TodoButton 
+                            v-if="!props.item.done" 
+                            @onClick="gotoUpdate(props.item.id)" 
+                            icon="edit" 
+                            circle
+                            tooltip="Alterar"
+                            clazz="line-action-button"
+                        />
 
-                    <TodoButton 
-                        v-if="props.item.done" 
-                        @onClick="removeTask(props.item.id)" 
-                        icon="trash" 
-                        circle
-                        tooltip="Excluir"
-                    />
+                        <TodoButton 
+                            v-if="props.item.done" 
+                            @onClick="removeTask(props.item.id)" 
+                            icon="trash" 
+                            circle
+                            tooltip="Excluir"
+                            clazz="line-action-button"
+                        />
 
-                    <TodoButton 
-                        @onClick="toggleTaskState(props.item)" 
-                        :icon="props.item.done ? 'undo' : 'check'"
-                        circle
-                        :tooltip="props.item.done ? 'Reabrir' : 'Finalizar'"
-                    />
+                        <TodoButton 
+                            @onClick="toggleTaskState(props.item)" 
+                            :icon="props.item.done ? 'undo' : 'check'"
+                            circle
+                            :tooltip="props.item.done ? 'Reabrir' : 'Finalizar'"
+                            clazz="line-action-button"
+                        />
+                    </div>
                 </template>
 
                 <template v-else>
@@ -167,10 +174,12 @@ export default {
 .list-actions button {
     width: 150px;
 }
+.line-action-button {
+    margin-left: 5px;
+}
 .task-finished {
     text-decoration: line-through
 }
-
 .center {
     text-align: center;
 }

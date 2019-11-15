@@ -13,13 +13,14 @@
             </select>
         </div>
 
-        <div>
+        <div class="pagination-controls">
             <TodoButton 
                 icon="angle-left" 
                 circle
                 :disabled="disableLeftButtons" 
                 @onClick="previwesPage" 
                 size="small"
+                clazz="pagination-controls_button"
             />
             <TodoButton 
                 icon="angle-double-left" 
@@ -27,9 +28,10 @@
                 :disabled="disableLeftButtons" 
                 @onClick="firstPage" 
                 size="small"
+                clazz="pagination-controls_button"
             />
 
-            <div class="pagination-control">
+            <div class="pagination-controls_pages">
                 {{internalCurrentPage}} de {{pages}}
             </div>
 
@@ -39,6 +41,7 @@
                 :disabled="disableRightButtons" 
                 @onClick="lastPage" 
                 size="small"
+                clazz="pagination-controls_button"
             />
             <TodoButton 
                 icon="angle-right" 
@@ -46,6 +49,7 @@
                 :disabled="disableRightButtons" 
                 @onClick="nextPage" 
                 size="small"
+                clazz="pagination-controls_button"
             />
         </div>
     </div> 
@@ -127,10 +131,6 @@ export default {
     justify-content: space-between;
     align-items: center;
 }
-.pagination-control {
-    display: inline-block;
-    margin: 0 10px;
-}
 .pagination-pages {
     display: inline-block;
     margin-right: 15px;
@@ -145,5 +145,12 @@ export default {
     font-family: 'Roboto';
     font-size: .9rem;
     outline: none;
+}
+.pagination-controls_button{
+    margin-left: 5px;
+}
+.pagination-controls_pages {
+    display: inline-block;
+    margin: 0 10px;
 }
 </style>

@@ -187,10 +187,6 @@ export default {
 }
 .todo-table td:last-child {
     border-right: none;
-    text-align: center;
-}
-.todo-table td button {
-    margin-right: 5px;
 }
 .todo-table-nodata {
     padding: 10px;

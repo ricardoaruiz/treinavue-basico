@@ -2,7 +2,7 @@
     <button 
         :type="submit ? 'submit' : 'button'"
         @click.stop="buttonClicked"
-        :class="`${circle ? 'circle' : '' } ${size}`"
+        :class="`${circle ? 'circle' : '' } ${size} ${clazz}`"
         :title="tooltip"
         :disabled="disabled"
     >
@@ -39,6 +39,9 @@ export default {
             type: String,
             default: 'medium',
             validator: (value) => ['small', 'medium', 'large'].indexOf(value) >= 0
+        },
+        clazz: {
+            type: String
         }
     },
     methods: {
