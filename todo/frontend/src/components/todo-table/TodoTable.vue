@@ -20,7 +20,7 @@
 
         <!-- Data -->
         <tbody>
-            <template v-if="internalItems.length">
+            <template v-if="hasData">
                 <tr v-for="(item, itemIndex) in internalItems" :key="`tr_${itemIndex}`" @click.stop="rowClicked(item)">
                     <td v-for="(field, fieldIndex) in fields" :key="`td_${field.name}_${itemIndex}_${fieldIndex}`">
                         <slot name="table-row" :field="field.name" :item="item" :value="item[field.name]">
@@ -101,6 +101,9 @@ export default {
         },
         searched() {
             return this.internalSearchTerm != '';
+        },
+        hasData() {
+            return this.internalItems.length > 0;
         }
     },
     watch: {
@@ -142,7 +145,15 @@ export default {
         rowClicked(item) {
             this.$emit('onRowClick', item);
         }
+    },
+    created() {
+        setTimeout(() => {
+            if (!this.hasData) {
+                this.internalCurrentPage = 0
+            }            
+        }, 100);
     }
+
 }
 </script>
 

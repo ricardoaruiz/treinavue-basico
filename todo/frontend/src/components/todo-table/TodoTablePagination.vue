@@ -17,14 +17,14 @@
             <TodoButton 
                 icon="angle-left" 
                 circle
-                :disabled="disabled || isBeginOfPages" 
+                :disabled="disableLeftButtons" 
                 @onClick="previwesPage" 
                 size="small"
             />
             <TodoButton 
                 icon="angle-double-left" 
                 circle
-                :disabled="disabled || isBeginOfPages" 
+                :disabled="disableLeftButtons" 
                 @onClick="firstPage" 
                 size="small"
             />
@@ -36,14 +36,14 @@
             <TodoButton
                 icon="angle-double-right" 
                 circle
-                :disabled="disabled || isEndOfPages" 
+                :disabled="disableRightButtons" 
                 @onClick="lastPage" 
                 size="small"
             />
             <TodoButton 
                 icon="angle-right" 
                 circle
-                :disabled="disabled || isEndOfPages" 
+                :disabled="disableRightButtons" 
                 @onClick="nextPage" 
                 size="small"
             />
@@ -78,6 +78,11 @@ export default {
             internalPageSize: this.pageSize
         }
     },
+    watch: {
+        currentPage() {
+            this.internalCurrentPage = this.currentPage
+        }
+    },
     methods: {
         previwesPage() {
             this.internalCurrentPage--;
@@ -105,7 +110,13 @@ export default {
         },
         isEndOfPages() {
             return this.internalCurrentPage === this.pages;
-        }   
+        },
+        disableLeftButtons() {
+            return this.disabled || this.isBeginOfPages || !this.internalCurrentPage;
+        },
+        disableRightButtons() {
+            return this.disabled || this.isEndOfPages || !this.internalCurrentPage;
+        }
     }
 }
 </script>
