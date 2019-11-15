@@ -1,5 +1,9 @@
 <template>
-    <div v-if="value" class="message-container" :class="type">
+    <div 
+        v-if="value" 
+        class="message-container" 
+        :class="type"
+    >
         <i :class="`message-icon fa fa-${icon} fa-2x`" />
         {{this.value}}
     </div>
@@ -58,7 +62,7 @@ export default {
 <style scoped>
 .message-container {
     padding: 12px;
-    color: #fff;
+    color: var(--white-color);
     font-size: 1.1rem;
     font-weight: bold;
     border-radius: 4px;
@@ -71,12 +75,12 @@ export default {
     margin-right: 15px;
 }
 .message-container.error {
-    background: red;
+    background: var(--message-error-color);
 }
 .message-container.success {
-    background: green;
+    background: var(--message-success-color);
 }
 .message-container.warning {
-    background: orange;
+    background: var(--message-warning-color);
 }
 </style>

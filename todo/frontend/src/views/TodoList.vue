@@ -1,24 +1,29 @@
 <template>
-    <div class="list-container">
+    <section class="list-container">
 
-        <TodoMessage :id="messageId" />
+        <TodoMessage 
+            :id="messageId" 
+        />
 
-        <TodoPageHeader title="Todo list" />
+        <TodoPageHeader 
+            title="Todo list" 
+        />
                
-        <TodoTable  :fields="fields" 
-                    :items="tasks"
-                    :searchable="true"
-                    @onRowClick="(item) => this.gotoUpdate(item.id)"
-                    :paginated="true"
-                    :pageSize="5"
-            >
+        <TodoTable  
+            :fields="fields" 
+            :items="tasks"
+            :searchable="true"
+            :paginated="true"
+            :pageSize="5"
+            @onRowClick="(item) => this.gotoUpdate(item.id)"
+        >
 
             <!-- Opcional usar somente se customizações forem necessárias no header -->
             <template v-slot:table-col="props">
                 <template v-if="props.field.name === 'done'">
                     <i class="fa fa-check" />  {{props.field.label}}    
                 </template>
-                <template v-if="props.field.name === 'actions'">
+                <template v-else-if="props.field.name === 'actions'">
                     <i class="fa fa-bolt" />  {{props.field.label}}    
                 </template>                
                 <template v-else>
@@ -38,22 +43,28 @@
                 </template>
 
                 <template v-else-if="props.field === 'actions'">
-                    <TodoButton v-if="!props.item.done" 
-                                @onClick="gotoUpdate(props.item.id)" 
-                                icon="edit" 
-                                type="circle"
-                                tooltip="Alterar"/>
+                    <TodoButton 
+                        v-if="!props.item.done" 
+                        @onClick="gotoUpdate(props.item.id)" 
+                        icon="edit" 
+                        type="circle"
+                        tooltip="Alterar"
+                    />
 
-                    <TodoButton v-if="props.item.done" 
-                                @onClick="removeTask(props.item.id)" 
-                                icon="trash" 
-                                type="circle"
-                                tooltip="Excluir"/>                            
+                    <TodoButton 
+                        v-if="props.item.done" 
+                        @onClick="removeTask(props.item.id)" 
+                        icon="trash" 
+                        type="circle"
+                        tooltip="Excluir"
+                    />
 
-                    <TodoButton @onClick="toggleTaskState(props.item)" 
-                                :icon="props.item.done ? 'undo' : 'check'"
-                                type="circle"
-                                :tooltip="props.item.done ? 'Reabrir' : 'Finalizar'"/>
+                    <TodoButton 
+                        @onClick="toggleTaskState(props.item)" 
+                        :icon="props.item.done ? 'undo' : 'check'"
+                        type="circle"
+                        :tooltip="props.item.done ? 'Reabrir' : 'Finalizar'"
+                    />
                 </template>
 
                 <template v-else>
@@ -64,10 +75,14 @@
         </TodoTable>
 
         <div class="list-actions">
-            <TodoButton label="Adicionar" icon="plus" @onClick="gotoCreate"/>
+            <TodoButton 
+                label="Adicionar" 
+                icon="plus" 
+                @onClick="gotoCreate"
+            />
         </div>
 
-    </div>
+    </section>
 </template>
 
 <script>

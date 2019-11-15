@@ -8,6 +8,16 @@
 :root {
   --white-color: #fff;
   
+  --red-color: #cc3333;
+  --red-soft-color: #c25b5b;
+  --red-light-color: #c93f3f;
+  --red-dark-color: #ca0f0f;
+
+  --green-color: #30971b;
+  --green-soft-color: #5f9255;
+  --green-light-color: #419630;
+  --green-dark-color: #1b9104;
+
   --orange-color: #d68d1f;
   --orange-soft-color: #ccbba1;
   --orange-light-color: #cf9743;
@@ -17,10 +27,13 @@
   --gray-soft-color: #e7e3e3;
   --gray-light-color: #d3d3d3;
   --gray-dark-color: #686767;
-  
-  
+    
   --primary-color: var(--orange-color);
   --secondary-color: var(--orange-light-color);
+
+  --message-error-color: var(--red-color);
+  --message-success-color: var(--green-color);
+  --message-warning-color: var(--orange-color);
 
   --btn-color: var(--primary-color);
   --btn-color-hover: var(--secondary-color);

@@ -1,9 +1,10 @@
 <template>
   <div class="todo-table-container">
 
-    <TodoInput id="todo-search" 
-                :value.sync="searchTerm" 
-                :isSearch="true"
+    <TodoInput 
+        id="todo-search" 
+        :value.sync="searchTerm" 
+        :isSearch="true"
     />
 
     <table class="todo-table">

@@ -1,22 +1,35 @@
 <template>
-    <div class="maintain-container">
+    <section class="maintain-container">
 
-        <TodoMessage :id="messageId" />
+        <TodoMessage 
+            :id="messageId" 
+        />
 
-        <TodoPageHeader :title="title" />
+        <TodoPageHeader 
+            :title="title" 
+        />
 
         <form @submit.prevent="saveTask" class="maintain-form">
-            <TodoInput id="description" 
-                        :value.sync="task.description" 
-                        placeholder="Descrição"
+            <TodoInput 
+                id="description" 
+                :value.sync="task.description" 
+                placeholder="Descrição"
             />
 
             <div class="maintain-actions">
-                <TodoButton label="Voltar" @onClick="backToList" icon="arrow-left"/>
-                <TodoButton label="Confirmar" icon="check"/>
+                <TodoButton 
+                    label="Voltar"
+                    @onClick="backToList"
+                    icon="arrow-left"
+                />
+
+                <TodoButton 
+                    label="Confirmar" 
+                    icon="check"
+                />                
             </div>
         </form>    
-    </div>
+    </section>
 </template>
 
 <script>

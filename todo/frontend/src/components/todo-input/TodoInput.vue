@@ -1,10 +1,12 @@
 <template>
-    <input  type="text" 
-            :id="id"
-            :placeholder="isSearch ? 'Busca' : placeholder"
-            :class="`todo-input ${isSearch ? 'search' : ''}`"
-            :value="value"
-            @input="input">  
+    <input  
+        type="text" 
+        :id="id"
+        :placeholder="isSearch ? 'Busca' : placeholder"
+        :class="`todo-input ${isSearch ? 'search' : ''}`"
+        :value="value"
+        @input="input"
+    >  
 </template>
 
 <script>
