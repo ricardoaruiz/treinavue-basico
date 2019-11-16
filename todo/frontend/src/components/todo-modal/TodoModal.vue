@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import TodoModalService from '@/components/todo-modal/TodoModalService';
 import TodoOverlay from '@/components/todo-overlay/TodoOverlay';
+import TodoModalService from '@/components/todo-modal/TodoModalService';
 
 export default {
     name: 'TodoModal',
