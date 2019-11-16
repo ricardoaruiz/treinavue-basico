@@ -1,30 +1,21 @@
-import Vue from 'vue';
+import EventBus from '@/components/EventBus';
 
 export default class TodoModalService {
 
-    static _eventBus = undefined;
-
-    static get _event() {
-        if (!TodoModalService._eventBus) {
-            TodoModalService._eventBus = new Vue();
-        }
-        return TodoModalService._eventBus;
-    }
-
     static subscribe(modalId, callback) {
-        TodoModalService._event.$on(modalId, callback);
+        EventBus.bus.$on(modalId, callback);
     }
 
     static open(modalId) {
-        TodoModalService._event.$emit(modalId, { open: true });
+        EventBus.bus.$emit(modalId, { open: true });
     }
 
     static close(modalId) {
-        TodoModalService._event.$emit(modalId, { open: false });
+        EventBus.bus.$emit(modalId, { open: false });
     }
 
     static unsubscribe(modalId) {
-        TodoModalService._event.$off(modalId);
+        EventBus.bus.$off(modalId);
     }
 
 }

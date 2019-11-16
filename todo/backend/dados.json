@@ -11,9 +11,9 @@
       "id": 2
     },
     {
+      "id": 3,
       "description": "Limpar a casa",
-      "done": false,
-      "id": 3
+      "done": false
     },
     {
       "description": "Levar o cachorro no veterinário",
