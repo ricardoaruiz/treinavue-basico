@@ -29,7 +29,17 @@
                     icon="check"
                 />                
             </div>
-        </form>    
+        </form>
+
+        <TodoModalConfirm 
+            :id="idSaveConfirm"
+            :title="title"
+            :message="confirmMessage"
+            labelOk="Sim"
+            labelCancel="Não"            
+            @onOk="confirmSaveTask"
+        />
+
     </section>
 </template>
 
@@ -38,9 +48,11 @@ import TodoService from '@/services/todo-service.js';
 import TodoPageHeader from '@/components/todo-page-header/TodoPageHeader';
 import TodoInput from '@/components/todo-input/TodoInput';
 import TodoMessageService from '@/components/todo-message/TodoMessageService';
+import TodoModalConfirm from '@/components/todo-modal/TodoModalConfirm';
+import TodoModalService from '@/components/todo-modal/TodoModalService';
 
 export default {
-    components: { TodoPageHeader, TodoInput },
+    components: { TodoPageHeader, TodoInput, TodoModalConfirm },
     props: ['id'],
     data() {
         return {
@@ -53,12 +65,21 @@ export default {
         title() {
             return (!this.id ? 'Criar' : 'Alterar') + ' Task';
         },
+        confirmMessage() {
+            return (this.id ? 'Deseja realmente alterar a task?' : 'Deseja realmente inserir a task?');
+        },
         messageId() {
             return 'todoInsertUpdate';
+        },
+        idSaveConfirm() {
+            return 'saveTaskConfirm'
         }
     },
     methods: {
         saveTask() {
+            TodoModalService.open(this.idSaveConfirm);
+        },
+        confirmSaveTask() {
             if (!this.task.description) {
                 alert('Descrição não informada')
                 return;

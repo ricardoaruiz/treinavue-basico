@@ -1,39 +1,23 @@
 <template>
-    <TodoOverlay v-if="open">
-        <div class="todo-modal">
-            <div class="todo-modal_container">
-                
-                <div class="todo-modal_message">
-                    <slot name="image">
-                        <i class="fa fa-question fa-3x" v-if="type === 'question'"/>
-                        <div v-else>
-                            <i :class="`fa fa-${icon} fa-3x`"/>
-                        </div>
-                    </slot>
-                    <p>
-                        <slot name="message">
-                            {{message}}
-                        </slot>
-                    </p>
-                </div>
+    <transition appear>
+        <TodoOverlay v-if="open">
+            <div class="todo-modal">
+                <div class="todo-modal_container">
+                    <div class="todo-modal_container-header" v-if="hasHeaderSlot">
+                        <slot name="header" />
+                    </div>
 
-                <div class="todo-model_actions">
-                    <slot name="actions">
-                        <div v-if="type === 'question'" class="todo-model_actions-buttons">
-                            <TodoButton 
-                                label="Ok"
-                                @onClick="onOkClicked"
-                            />
-                            <TodoButton 
-                                label="Cancelar"
-                                @onClick="onCancelClicked"
-                            /> 
-                        </div>
-                    </slot>
+                    <div class="todo-modal_container-content" v-if="hasContentSlot">
+                        <slot name="content" />
+                    </div>
+
+                    <div class="todo-modal_container-footer" v-if="hasFooterSlot">
+                        <slot name="footer" />
+                    </div>                
                 </div>
             </div>
-        </div>
-    </TodoOverlay>
+        </TodoOverlay>
+    </transition>
 </template>
 
 <script>
@@ -47,17 +31,6 @@ export default {
         id: {
             type: String,
             required: true
-        },
-        type: {
-            type: String,
-            default: 'custom',
-            validator: (value) => ['custom', 'question'].indexOf(value) >= 0
-        },
-        icon: {
-            type: String
-        },
-        message: {
-            type: String
         }
     },
     data() {
@@ -65,15 +38,16 @@ export default {
             open: false
         }
     },
-    methods: {
-        onOkClicked() {
-            this.$emit('onOk')
-            TodoModalService.close(this.id);
+    computed: {
+        hasHeaderSlot () {
+            return this.$slots['header']
         },
-        onCancelClicked() {
-            this.$emit('onCancel');
-            TodoModalService.close(this.id);
-        }
+        hasContentSlot () {
+            return this.$slots['content']
+        },
+        hasFooterSlot () {
+            return this.$slots['footer']
+        }        
     },
     created() {
         TodoModalService.subscribe(this.id, objModal => {
@@ -97,35 +71,31 @@ export default {
     align-items: center;
 }
 .todo-modal_container {
-    display: grid;
-    padding: 20px;
-    border-radius: 4px;
-    
+    display: grid;    
     min-width: 400px;
     max-width: 600px;
+    border-radius: 4px;
     background: var(--white-color);
     box-shadow: 2px 4px 6px rgba(0,0,0,.4);
 }
-.todo-modal_message {
-    display: grid;
-    grid-template-columns: 50px 1fr;
-    justify-content: center;
-    align-items: center;
+.todo-modal_container-header {
+    padding: 0 20px;
+    border-bottom: 1px solid var(--gray-soft-color);
 }
-.todo-modal_message p {
-    margin-left: 15px;
-    font-size: 1.1rem;
+.todo-modal_container-content {
+    padding: 0 20px;
 }
-.todo-model_actions {
-    margin-top: 80px;
+.todo-modal_container-footer {
+    padding: 0 20px;
+    border-top: 1px solid var(--gray-soft-color);
 }
-.todo-model_actions-buttons {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity .5s;
 }
-.todo-model_actions-buttons button {
-    min-width: 120px;
-    margin-left: 10px;
+.v-enter,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

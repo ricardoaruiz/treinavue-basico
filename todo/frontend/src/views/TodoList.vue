@@ -91,10 +91,13 @@
             />
         </div>
 
-        <TodoModal 
+        <TodoModalConfirm 
             :id="idDeleteConfirm"
-            type="question"
-            :message="`Deseja realmente remover a task: ${this.task ? this.task.description : ''} ?`"
+            title="Exclusão de Task"
+            message="Deseja realmente excluir a task"
+            :messageComp="`${this.task ? this.task.description : ''}?`"
+            labelOk="Sim"
+            labelCancel="Não"
             @onOk="confirmRemoveTask"
             @onCancel="cancelRemoveTask"
         />
@@ -108,11 +111,11 @@ import TodoMessageService from '@/components/todo-message/TodoMessageService';
 
 import TodoPageHeader from '@/components/todo-page-header/TodoPageHeader';
 import TodoTable from '@/components/todo-table/TodoTable';
-import TodoModal from '@/components/todo-modal/TodoModal';
+import TodoModalConfirm from '@/components/todo-modal/TodoModalConfirm';
 import TodoModalService from '@/components/todo-modal/TodoModalService';
 
 export default {
-    components: { TodoPageHeader, TodoTable, TodoModal },
+    components: { TodoPageHeader, TodoTable, TodoModalConfirm },
     data() {
         return {
             tasks: [],
